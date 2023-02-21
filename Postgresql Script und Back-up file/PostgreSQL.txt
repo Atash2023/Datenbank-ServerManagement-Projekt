@@ -1,0 +1,59 @@
+psql -U postgres;
+
+
+postgres=# CREATE DB projektwoche;
+
+
+postgres=# CREATE ROLE admin_nutzer WITH CREATEDB CREATEROLE REPLICATION LOGIN PASSWORD '1234';
+
+postgres=# ALTER ROLE admin_nutzer NOSUPERUSER;
+
+
+postgres=# exit 
+
+
+psql -U admin_nutzer -d projektwoche;
+
+
+
+projecktwoche=# CREATE TABLE Kasse (id SERIAL, aktuellerBetrag INTEGER, nummer INTEGER);
+
+projecktwoche=# CREATE TABLE Kassenauswertung (geschaeftsId SERIAL, zeitraumTage INTEGER, betragGesamt INTEGER);
+
+projecktwoche=# CREATE TABLE Kassierer (personalID SERIAL, name INTEGER, vorname INTEGER);
+
+
+projecktwoche=# CREATE ROLE nutzer_01 WITH LOGIN PASSWORD '1234';
+
+
+projecktwoche=# CREATE ROLE nutzer_02 WITH LOGIN PASSWORD '1234';
+
+
+projecktwoche=# GRANT SELECT ON kasse TO nutzer_01;
+
+projecktwoche=# GRANT SELECT ON kassenauswertung TO nutzer_01;
+
+projecktwoche=# GRANT SELECT ON kassierer TO nutzer_01;
+
+
+projecktwoche=# GRANT SELECT ON kasse TO nutzer_02;
+
+projecktwoche=# GRANT SELECT ON kassenauswertung TO nutzer_02;
+
+projecktwoche=# GRANT SELECT ON kassierer TO nutzer_02;
+
+projecktwoche=# GRANT UPDATE ON kasse TO nutzer_02;
+
+projecktwoche=# GRANT UPDATE ON kassenauswertung TO nutzer_02;
+
+projecktwoche=# GRANT UPDATE ON kassierer TO nutzer_02;
+
+
+
+pg_dump -d projektwoche -U postgres -f projektwoche.sql
+
+
+
+
+
+
